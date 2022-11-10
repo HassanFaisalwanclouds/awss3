@@ -1,22 +1,24 @@
-name: S3 Check example
+# This is a basic workflow to help you get started with Actions
+name: addS3BucketAWS
+# Controls when the action will run. 
 on:
-  schedule:
-    - cron: '0 0 * * *'
-
+  # Triggers the workflow on push or pull request events but only for the main branch
+  # push:
+  #  branches: [ main ]
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy:
+# This workflow contains a single job called "build"
+  build:
+# The type of runner that the job will run on
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - uses: tuler/s3-check-action@master
-      id: check
-      env:
-        FILE: ${{ github.sha }}
-        AWS_REGION: 'us-east-1'
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - run: echo "Do your thing"
-      if: steps.check.outputs.exists == 'false'
-    - run: echo "Write a file to S3 bucket with name \${GITHUB_SHA}"
-      if: steps.check.outputs.exists == 'false'
+steps:
+      - uses: actions/checkout@master
+- name: Upload to S3
+        run: |
+          aws s3 mb s3://testinggithub
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-west-1'
