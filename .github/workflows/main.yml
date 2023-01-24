@@ -17,4 +17,5 @@ jobs:
         aws-region: us-east-1
     - name: Sync with S3
       run: |
-        git show --pretty="" --name-only HEAD | xargs -I % sh -c "aws s3 sync % s3://testing-git-01"
+        git show --pretty="" --name-only HEAD | xargs -I % sh -c "aws s3 sync $(basename %) s3://testing-git-01"
+    
