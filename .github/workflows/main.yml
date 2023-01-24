@@ -16,4 +16,4 @@ jobs:
         aws-region: us-east-1
     - name: Deploy static site to S3 bucket
       run: |
-        git diff-tree --no-commit-id --name-only -r HEAD^..HEAD | xargs -I % sh -c "aws s3 cp % s3://testing-git-01/%"
+        git diff-tree --no-commit-id --name-only -r HEAD^..HEAD | grep -vE '(.git|.github)' | xargs -I % sh -c "aws s3 cp % s3://testing-git-01/%"
