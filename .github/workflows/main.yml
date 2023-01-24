@@ -17,5 +17,4 @@ jobs:
         aws-region: us-east-1
     - name: Sync with S3
       run: |
-        git show --pretty="" --name-only HEAD > changed_files.txt
-        aws s3 sync . s3://testing-git-01 --exclude "*" --include-from changed_files.txt
+        git show --pretty="" --name-only HEAD | xargs aws s3 sync . s3://testing-git-01
